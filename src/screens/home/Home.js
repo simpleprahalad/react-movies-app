@@ -6,6 +6,7 @@ import moviesData from '../../common/movieData';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
 
 const styles = theme => ({
     root: {
@@ -22,6 +23,10 @@ const styles = theme => ({
         flexWrap: 'nowrap',
         transform: 'translateZ(0)',
         width: '100%'
+    },
+    gridListMain: {
+        transform: 'translateZ(0)',
+        cursor: 'pointer'
     }
  });
 
@@ -31,20 +36,40 @@ const styles = theme => ({
         return (
             <div>
                 <Header />
+
                 <div className={classes.upcomingMoviesHeading}>
                     <span>Upcoming Movies</span>
                 </div>
-                <GridList cols={5} className={classes.gridListUpcomingMovies}>
+
+                <GridList cols={5} className={classes.gridListUpcomingMovies} >
                     {moviesData.map(movie => (
                         <GridListTile key={movie.id}>
-                            <img src={movie.poster_url} alt={movie.title} />
+                            <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                             <GridListTileBar title={movie.title} />
                         </GridListTile>
                     ))}
                 </GridList>
+
+                <div className="flex-container">
+                    <div className="left">
+                        <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
+                            {moviesData.map(movie => (
+                                <GridListTile className="released-movie-grid-item" key={"grid" + movie.id}>
+                                    <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
+                                    <GridListTileBar
+                                        title={movie.title}
+                                        subtitle={<span>Release Date: {new Date(movie.release_date).toDateString()}</span>}
+                                    />
+                                </GridListTile>
+                            ))}
+                        </GridList>
+                    </div>
+                    <div className="right">
+
+                    </div>
+                </div>
             </div>
         )
     }
 }
-
 export default withStyles(styles)(Home);
