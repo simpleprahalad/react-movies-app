@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+import ReactDom from 'react-dom';
 import './Home.css';
+import Details from '../details/Details';
 import Header from '../../common/header/Header';
 import { withStyles } from '@material-ui/core/styles';
 import moviesData from '../../common/movieData';
@@ -73,6 +75,10 @@ const styles = theme => ({
         this.setState({ artists: e.target.value });
     }
 
+    movieClickHandler = (movieId) => {
+        ReactDom.render(<Details movieId={movieId}/>, document.getElementById('root'));
+    }
+
     render() {
         const { classes } = this.props;
         return (    
@@ -96,7 +102,7 @@ const styles = theme => ({
                     <div className="left">
                         <GridList cellHeight={350} cols={4} className={classes.gridListMain}>
                             {moviesData.map(movie => (
-                                <GridListTile className="released-movie-grid-item" key={"grid" + movie.id}>
+                                <GridListTile onClick={() => this.movieClickHandler(movie.id)}  className="released-movie-grid-item" key={"grid" + movie.id}>
                                     <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                                     <GridListTileBar
                                         title={movie.title}
