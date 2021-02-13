@@ -164,6 +164,18 @@ const styles = theme => ({
                                         >
                                     </TextField>
                                 </FormControl>
+
+                                <FormControl className={classes.formControl}>
+                                    <TextField
+                                        id="releastEndStart"
+                                        label="Release End Start"
+                                        type="date"
+                                        defaultValue=""
+                                        InputLabelProps={{shrink: true}}
+                                        >
+                                    </TextField>
+                                </FormControl>
+
                             </CardContent>
                         </Card>
                     </div>
