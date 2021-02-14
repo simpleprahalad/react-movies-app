@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
-import ReactDom from 'react-dom';
 import './Home.css';
-import Details from '../details/Details';
 import Header from '../../common/header/Header';
 import { withStyles } from '@material-ui/core/styles';
 import moviesData from '../../common/movieData';
@@ -76,7 +74,7 @@ const styles = theme => ({
     }
 
     movieClickHandler = (movieId) => {
-        ReactDom.render(<Details movieId={movieId}/>, document.getElementById('root'));
+        this.props.history.push('/movie/'+movieId);
     }
 
     render() {
