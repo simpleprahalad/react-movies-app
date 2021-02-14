@@ -56,9 +56,27 @@ const styles = theme => ({
          super();
          this.state = {
              movieName: "",
+             upcomingMovies: [],
              genres: [],
              artists: []
          }
+     }
+
+     componentWillUnmount() {
+        let data = null;
+        let xhr = new XMLHttpRequest();
+        let that = this;
+        xhr.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    upcomingMovies: JSON.parse(this.responseText).movies
+                });
+            }
+        });
+
+        xhr.open("GET", this.props.baseUrl + "movies?status=PUBLISHED");
+        xhr.setRequestHeader("Cache-Control", "no-cache");
+        xhr.send(data);
      }
 
     movieNameChangeHandler = (e) => {
@@ -88,8 +106,8 @@ const styles = theme => ({
                 </div>
 
                 <GridList cols={5} className={classes.gridListUpcomingMovies} >
-                    {moviesData.map(movie => (
-                        <GridListTile key={movie.id}>
+                    {this.state.upcomingMovies.map(movie => (
+                        <GridListTile key={"upcoming" + movie.id}>
                             <img src={movie.poster_url} className="movie-poster" alt={movie.title} />
                             <GridListTileBar title={movie.title} />
                         </GridListTile>
