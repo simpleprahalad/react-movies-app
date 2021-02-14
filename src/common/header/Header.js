@@ -76,7 +76,8 @@ class Header extends Component {
             registerPassword: "",
             registerPasswordRequired: "dispNone",
             contact: "",
-            contactRequired: "dispNone"
+            contactRequired: "dispNone",
+            registrationSuccess: false
         });
     }
 
@@ -106,6 +107,29 @@ class Header extends Component {
             this.setState({ registerPasswordRequired: "dispNone" });
         this.state.contact === "" ? this.setState({ contactRequired: "dispBlock" }) :
             this.setState({ contactRequired: "dispNone" });
+
+        let dataSignup = JSON.stringify({
+            "email_address": this.state.email,
+            "first_name": this.state.firstname,
+            "last_name": this.state.lastname,
+            "mobile_number": this.state.contact,
+            "password": this.state.registerPassword
+        })
+
+        let xhrSignup = new XMLHttpRequest();
+        let that = this;
+        xhrSignup.addEventListener("readystatechange", function () {
+            if (this.readyState === 4) {
+                that.setState({
+                    registrationSuccess: true
+                });
+            }
+        });
+
+        xhrSignup.open("POST", this.props.baseUrl + "signup");
+        xhrSignup.setRequestHeader("Content-Type", "application/json");
+        xhrSignup.setRequestHeader("Cache-Control", "no-cache");
+        xhrSignup.send(dataSignup);
     }
 
     inputUserNameChangeHandler = (e) => {
@@ -252,6 +276,15 @@ class Header extends Component {
                                     <span className="red">required</span>
                                 </FormHelperText>
                             </FormControl>
+                            <br />
+                            <br />
+                            {this.state.registrationSuccess === true &&
+                                <FormControl>
+                                    <span className="successText">
+                                        Registration Successful. Please Login!
+                                      </span>
+                                </FormControl>
+                            }
                             <br />
                             <br />
                             <Button variant="contained" color="primary" onClick={this.registerClickHandler}>REGISTER</Button>
